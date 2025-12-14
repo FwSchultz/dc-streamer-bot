@@ -1,4 +1,4 @@
-<div align="center">
+gg<div align="center">
 
   <img src="https://github.com/FwSchultz/assets/blob/main/bots/FwS-Bots/Bot.png" alt="logo" width="200" height="auto" />
   <h1>DISCORD-STREAM-BOT</h1>
@@ -442,4 +442,4 @@ Created by **Fw.Schultz**.
 Bei Fragen, Bugs oder Feature-Wünschen:
 
 - GitHub Issues: [https://github.com/FwSchultz/dc-streamer-bot/issues](https://github.com/FwSchultz/dc-streamer-bot/issues)  
-- Discord: *https://discordapp.com/users/275297833970565121*
+- Discord: [Fw.Schultz](https://discordapp.com/users/275297833970565121)
