@@ -154,6 +154,10 @@ TWITCH_CLIENT_SECRET=dein_twitch_client_secret
 # YouTube API
 YOUTUBE_API_KEY=dein_youtube_api_key
 
+# Bot
+CHECK_INTERVAL_MINUTES=2
+LOG_LEVEL=INFO
+
 # Rollen, die zusätzlich zu "Server verwalten" die Commands nutzen dürfen
 # Kommagetrennte Liste von Discord-Rollen-IDs, z.B. Admins, Streamer etc.
 ALLOWED_ROLE_IDS=111111111111111111,222222222222222222
@@ -177,8 +181,14 @@ ALLOWED_ROLE_IDS=111111111111111111,222222222222222222
 - `YOUTUBE_API_KEY`  
   API-Key aus der Google Cloud Console mit aktivierter **YouTube Data API v3**.
   
-- `ALLOWED_ROLE_IDS`
-  Kommagetrennte Liste von Rollen-IDs. Jeder Benutzer mit mindestens einer dieser Rollen darf die 
+- `ALLOWED_ROLE_IDS`  
+  Kommagetrennte Liste von Rollen-IDs.
+
+- `CHECK_INTERVAL_MINUTES`  
+  Abstand zwischen den Live-Prüfungen in Minuten. Mindestwert: 1.
+
+- `LOG_LEVEL`  
+  Protokollierungsstufe, zum Beispiel `INFO` oder `DEBUG`. Jeder Benutzer mit mindestens einer dieser Rollen darf die 
   Streamer-Commands benutzen – auch ohne „Server verwalten“.
 
 ---
@@ -352,7 +362,7 @@ Nutzen:
 
 ## How the Live Check Works
 
-- Alle 2 Minuten läuft `check_streams`.
+- Das Prüfintervall wird über `CHECK_INTERVAL_MINUTES` gesteuert (Standard: 2 Minuten).
 - Der Bot liest alle Streamer aus `streamers.db`.
 - Twitch:
   - Abfrage der Streams über `helix/streams` mit `user_login`.

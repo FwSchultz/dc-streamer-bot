@@ -1,14 +1,29 @@
-# Env & Secrets
+# Secrets
 .env
+.env.*
+!.env.example
 
-# Datenbank
-streamers.db
+# Persistente Daten
 *.db
+*.db-shm
+*.db-wal
+data/*
+!data/.gitkeep
 
-# venv
-venv/
-.venv/
-
-# Python Cache
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/

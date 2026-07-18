@@ -1,14 +1,12 @@
-version: "3.9"
-
 services:
   streambot:
     build: .
-    image: fwschultz/dc-streamer-bot:1.0.0
+    image: fwschultz/dc-streamer-bot:1.1.0
     container_name: dc-streamer-bot
     restart: unless-stopped
     env_file:
       - .env
     environment:
-      - TZ=Europe/Berlin
+      TZ: Europe/Berlin
     volumes:
       - ./data:/app/data

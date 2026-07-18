@@ -15,7 +15,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL", "INFO").upper(),
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+)
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD_ID = int(os.getenv("GUILD_ID", "0")) or None
@@ -27,6 +30,7 @@ ALLOWED_ROLE_IDS: set[int] = {
 TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID")
 TWITCH_CLIENT_SECRET = os.getenv("TWITCH_CLIENT_SECRET")
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+CHECK_INTERVAL_MINUTES = max(1, int(os.getenv("CHECK_INTERVAL_MINUTES", "2")))
 
 
 def chunk_list(lst, size):
@@ -44,7 +48,9 @@ class StreamBot(discord.Client):
         self.twitch_token: Optional[str] = None
 
     async def setup_hook(self) -> None:
-        self.http_session = aiohttp.ClientSession()
+        timeout = aiohttp.ClientTimeout(total=30)
+        self.http_session = aiohttp.ClientSession(timeout=timeout)
+        os.makedirs("data", exist_ok=True)
         self.db = await aiosqlite.connect("data/streamers.db")
         await self._init_db()
 
@@ -59,6 +65,7 @@ class StreamBot(discord.Client):
             logging.info("Globale Commands synchronisiert")
 
         # Background-Task starten
+        self.check_streams.change_interval(minutes=CHECK_INTERVAL_MINUTES)
         self.check_streams.start()
 
     async def close(self) -> None:
@@ -398,8 +405,12 @@ class StreamBot(discord.Client):
                 await channel.send(embed=embed)
 
     @check_streams.before_loop
-    async def before_check_streams(self):
+    async def before_check_streams(self) -> None:
         await self.wait_until_ready()
+
+    @check_streams.error
+    async def check_streams_error(self, error: Exception) -> None:
+        logging.exception("Fehler im Live-Check", exc_info=error)
 
 
 bot = StreamBot()
