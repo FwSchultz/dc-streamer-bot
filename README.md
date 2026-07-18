@@ -1,4 +1,4 @@
-gg<div align="center">
+<div align="center">
 
   <img src="https://github.com/FwSchultz/assets/blob/main/bots/FwS-Bots/Bot.png" alt="logo" width="200" height="auto" />
   <h1>DISCORD-STREAM-BOT</h1>
